@@ -26,7 +26,7 @@ public class FileInputManagerTest {
     @Test
     void loadInputTest() {
         FileInputManager fileInputManager = new FileInputManager();
-        String input1 = "I:\\교육\\Code Reviewer\\TeamProject\\CRA2022\\src\\test\\docs\\input_test.txt";
+        String input1 = System.getProperty("user.dir") + "\\src\\test\\docs\\input_test.txt";
         String input2 = System.getProperty("user.dir") + "\\docs\\" + "input_20_20.txt";
 
         String sample = "ADD, , , ,15123099,VXIHXOTH JHOP,CL3,010-3112-2609,19771211,ADV";
@@ -44,7 +44,7 @@ public class FileInputManagerTest {
     @Test
     void loadInputTest2() {
         FileInputManager fileInputManager = new FileInputManager();
-        String input1 = "I:\\교육\\Code Reviewer\\TeamProject\\CRA2022\\src\\test\\docs\\input_test.txt";
+        String input1 = System.getProperty("user.dir") + "\\src\\test\\docs\\input_test.txt";
         String input2 = System.getProperty("user.dir") + "\\docs\\" + "input_20_20.txt";
 
         try {
