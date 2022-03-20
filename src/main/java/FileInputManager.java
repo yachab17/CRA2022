@@ -10,13 +10,18 @@ public class FileInputManager {
 
     private static String docPath = "docs";
 
-    public void getCommandListFromFile(String inputFile) {
+    public List<String> loadInputFileToString(String inputFile) {
+        List<String> result = new ArrayList<>();
+        if(!isValidFileName(inputFile)) return result;
 
+        inputFile = covertRelativePath(inputFile);
+        if(!isFileExist(inputFile)) return result;
+
+        return loadInput(inputFile);
     }
 
     public List<String> loadInput(String inputFile) {
         List<String> result = new ArrayList<>();
-
         try {
             BufferedReader reader = new BufferedReader(new FileReader(inputFile));
             String str;

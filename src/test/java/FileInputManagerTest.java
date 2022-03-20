@@ -19,7 +19,9 @@ public class FileInputManagerTest {
     @Test
     void isFileExistTest() {
         FileInputManager fileInputManager = new FileInputManager();
-        assertEquals(true, fileInputManager.isFileExist("I:\\교육\\Code Reviewer\\TeamProject\\CRA2022\\src\\test\\docs\\input_test.txt"));
+        String input1 = System.getProperty("user.dir") + "\\src\\test\\docs\\input_test.txt";
+
+        assertEquals(true, fileInputManager.isFileExist(input1));
 //        assertEquals(false, fileInputManager.isFileExist("../docs/inputtttttttttttt.txt"));
     }
 
@@ -32,7 +34,7 @@ public class FileInputManagerTest {
         String sample = "ADD, , , ,15123099,VXIHXOTH JHOP,CL3,010-3112-2609,19771211,ADV";
 
         try {
-            List<String> loadString = fileInputManager.loadInput("I:\\교육\\Code Reviewer\\TeamProject\\CRA2022\\src\\test\\docs\\input_test.txt");
+            List<String> loadString = fileInputManager.loadInput(input1);
             System.out.println(loadString.size());
             assertNotNull(loadString);
             assertEquals(sample, loadString.get(0));

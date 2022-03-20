@@ -1,3 +1,4 @@
+import java.util.ArrayList;
 import java.util.List;
 
 public class Command {
@@ -6,22 +7,17 @@ public class Command {
     private String option1;
     private String option2;
     private String option3;
-    private String sourceCol;
-    private String sourceVal;
-    private String targetCol;
-    private String targetVal;
+    private List<String> etcArg;
 
-    public Command(String line) {
-        String[] splitLine = line.split(",");
+    public Command(String[] splitLine) {
         this.type = getCommandType(splitLine[0]);
         this.option1 = splitLine[1];
         this.option2 = splitLine[2];
         this.option3 = splitLine[3];
-        this.sourceCol = splitLine[4];
-        this.sourceVal = splitLine[5];
-        this.targetCol = splitLine[6];
-        this.targetVal = splitLine[7];
-
+        this.etcArg = new ArrayList<>();
+        for(int i = 4; i < splitLine.length; i++) {
+            etcArg.add(splitLine[i]);
+        }
     }
 
     public CommandType getCommandType(String command) {
@@ -61,35 +57,22 @@ public class Command {
         this.option3 = option3;
     }
 
-    public String getSourceCol() {
-        return sourceCol;
+    public List<String> getEtcArg() {
+        return etcArg;
     }
 
-    public void setSourceCol(String sourceCol) {
-        this.sourceCol = sourceCol;
+    public void setEtcArg(List<String> etcArg) {
+        this.etcArg = etcArg;
     }
 
-    public String getSourceVal() {
-        return sourceVal;
-    }
-
-    public void setSourceVal(String sourceVal) {
-        this.sourceVal = sourceVal;
-    }
-
-    public String getTargetCol() {
-        return targetCol;
-    }
-
-    public void setTargetCol(String targetCol) {
-        this.targetCol = targetCol;
-    }
-
-    public String getTargetVal() {
-        return targetVal;
-    }
-
-    public void setTargetVal(String targetVal) {
-        this.targetVal = targetVal;
+    @Override
+    public String toString() {
+        return "Command{" +
+                "type=" + type +
+                ", option1='" + option1 + '\'' +
+                ", option2='" + option2 + '\'' +
+                ", option3='" + option3 + '\'' +
+                ", etcArg=" + etcArg.toString() +
+                '}';
     }
 }

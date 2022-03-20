@@ -1,12 +1,13 @@
+import java.util.List;
 
 public class Main {
     public static void main(String[] args) {
         if(!isValidArgs(args)) return;
-        String inputFile = args[0];
-        String outputFile = args[1];
+        String inputFile = args[0]; // "input_20_20.txt"
+        String outputFile = args[1]; // "output_20_20.txt"
 
         FileInputManager fileInputManager = new FileInputManager();
-        System.out.println(fileInputManager.loadInput(fileInputManager.covertRelativePath(inputFile)));
+        List<Command> commandList = new CommandParser().getCommandList(fileInputManager.loadInput(inputFile));
 
     }
 
