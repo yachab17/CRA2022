@@ -20,7 +20,7 @@ public class EmployeeManager {
     public void addCommand(Employee employee) {
     }
 
-    public List<Employee> delteCommand(Command command, ISearch searcher) {
+    public List<Employee> deleteCommand(Command command, ISearch searcher) {
         List<Employee> resultEmployees = new ArrayList<Employee>();
 
         return resultEmployees;

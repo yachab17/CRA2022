@@ -29,3 +29,6 @@ build
 
 # unnecessary files
 *.drawio
+
+# backup files
+*.orig

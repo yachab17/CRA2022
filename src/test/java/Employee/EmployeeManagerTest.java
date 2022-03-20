@@ -45,7 +45,7 @@ public class EmployeeManagerTest {
         for (int i = 0; i < employees.size(); i++) {
             employeeManager.addCommand(employees.get(i));
         }
-        List<Employee> deletedEmployees = employeeManager.delteCommand(command, searcher);
+        List<Employee> deletedEmployees = employeeManager.deleteCommand(command, searcher);
         Map<Integer, Employee> employeeMap = employeeManager.getEmployees();
 
         Assertions.assertFalse(employeeMap.containsKey(deletedEmployees.get(0).getEmployeeNumber()));
