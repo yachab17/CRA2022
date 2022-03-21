@@ -34,6 +34,26 @@ public class EmployeeManagerTest {
     }
 
     @Test
+    void addTestException() {
+        EmployeeManager employeeManager = EmployeeManager.GetInstance();
+        try {
+            for (int i = 0; i < employees.size(); i++) {
+                employeeManager.addCommand(employees.get(i));
+            }
+        }
+        catch (Exception err) {
+            System.out.println(err.getMessage());
+        }
+
+        Exception exception = Assertions.assertThrows(Exception.class, () -> {
+            employeeManager.addCommand(employees.get(0));
+            employeeManager.addCommand(employees.get(0));
+        });
+
+        Assertions.assertEquals("Duplication Empoyee Number", exception.getMessage());
+    }
+
+    @Test
     void deleteTest() {
         EmployeeManager employeeManager = EmployeeManager.GetInstance();
         Command command = mock(Command.class);
@@ -42,12 +62,22 @@ public class EmployeeManagerTest {
         when(command.getSourceValue()).thenReturn("name");
         when(command.getSourceColumn()).thenReturn("김삼성");
 
-        for (int i = 0; i < employees.size(); i++) {
-            employeeManager.addCommand(employees.get(i));
+        try {
+            for (int i = 0; i < employees.size(); i++) {
+                employeeManager.addCommand(employees.get(i));
+            }
         }
-        List<Employee> deletedEmployees = employeeManager.deleteCommand(command, searcher);
-        Map<Integer, Employee> employeeMap = employeeManager.getEmployees();
+        catch (Exception err) {
+            System.out.println(err.getMessage());
+        }
 
+        List<Employee> deletedEmployees = null;
+        try {
+            deletedEmployees = employeeManager.deleteCommand(command, searcher);
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
+        Map<Integer, Employee> employeeMap = employeeManager.getEmployees();
         Assertions.assertFalse(employeeMap.containsKey(deletedEmployees.get(0).getEmployeeNumber()));
     }
 
@@ -62,10 +92,22 @@ public class EmployeeManagerTest {
         when(command.getTargetColumn()).thenReturn("careerLevel");
         when(command.getTargetValue()).thenReturn("CL4");
 
-        for (int i = 0; i < employees.size(); i++) {
-            employeeManager.addCommand(employees.get(i));
+        try {
+            for (int i = 0; i < employees.size(); i++) {
+                employeeManager.addCommand(employees.get(i));
+            }
         }
-        List<Employee> updatedEmployees = employeeManager.updateCommand(command, searcher);
+        catch (Exception err) {
+            System.out.println(err.getMessage());
+        }
+
+        // 컬럼값 변경되기 전 Record 반환
+        List<Employee> updatedEmployees = null;
+        try {
+            updatedEmployees = employeeManager.updateCommand(command, searcher);
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
         Map<Integer, Employee> employeeMap = employeeManager.getEmployees();
 
         Assertions.assertEquals(2, updatedEmployees.size());
@@ -79,13 +121,45 @@ public class EmployeeManagerTest {
         Command command = mock(Command.class);
         ISearch searcher = mock(ISearch.class);
         when(searcher.search(employeeManager.getEmployees(), command)).thenReturn(Arrays.asList(12345678));
-
-        for (int i = 0; i < employees.size(); i++) {
-            employeeManager.addCommand(employees.get(i));
+        try {
+            for (int i = 0; i < employees.size(); i++) {
+                employeeManager.addCommand(employees.get(i));
+            }
         }
-        List<Employee> foundEmployees = employeeManager.searchCommand(command, searcher);
+        catch (Exception err) {
+            System.out.println(err.getMessage());
+        }
+
+        List<Employee> foundEmployees = null;
+        try {
+            foundEmployees = employeeManager.searchCommand(command, searcher);
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
 
         Assertions.assertEquals("네이버", foundEmployees.get(0).getName());
+    }
+
+    @Test
+    void searchWithoutOptionTestException() {
+        EmployeeManager employeeManager = EmployeeManager.GetInstance();
+        Command command = mock(Command.class);
+        ISearch searcher = mock(ISearch.class);
+        when(searcher.search(employeeManager.getEmployees(), command)).thenReturn(Arrays.asList(123));
+        try {
+            for (int i = 0; i < employees.size(); i++) {
+                employeeManager.addCommand(employees.get(i));
+            }
+        }
+        catch (Exception err) {
+            System.out.println(err.getMessage());
+        }
+
+        Exception exception = Assertions.assertThrows(Exception.class, () -> {
+            employeeManager.searchCommand(command, searcher);
+        });
+
+        Assertions.assertEquals("There is no employeeNumber", exception.getMessage());
     }
 }
 
