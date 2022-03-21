@@ -1,10 +1,14 @@
 package Command;
 
+import Employee.Employee;
+
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
+
+import static Command.EmployeeParser.*;
 
 public class Command {
-
     private CommandType type;
     private String option1;
     private String option2;
@@ -20,6 +24,12 @@ public class Command {
         for(int i = 4; i < splitLine.length; i++) {
             etcArg.add(splitLine[i]);
         }
+    }
+
+    public Employee getEmployee() {
+        return new Employee(Integer.parseInt(etcArg.get(EMPLOYEE_NUMBER.ordinal())), etcArg.get(NAME.ordinal()),
+                etcArg.get(CARRIER_LEVEL.ordinal()), etcArg.get(TELEPHONE_NUMBER.ordinal()),
+                etcArg.get(BIRTH_DAY.ordinal()), etcArg.get(CERTI_LEVEL.ordinal()));
     }
 
     public String getSourceColumn() {

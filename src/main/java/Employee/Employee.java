@@ -1,6 +1,6 @@
 package Employee;
 
-public class Employee {
+public class Employee implements Cloneable {
     private int employeeNumber;
     private String name;
     private String careerLevel;
@@ -63,5 +63,18 @@ public class Employee {
 
     public void setCertiLevel(String certiLevel) {
         this.certiLevel = certiLevel;
+    }
+
+    public Object clone() {
+        Object obj = null;
+        try {
+            obj = super.clone();
+        }
+        catch (CloneNotSupportedException e) {
+            e.printStackTrace();
+
+        }
+
+        return obj;
     }
 }
