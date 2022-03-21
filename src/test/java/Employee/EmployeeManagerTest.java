@@ -1,5 +1,6 @@
 package Employee;
 
+import Command.*;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -34,7 +35,7 @@ public class EmployeeManagerTest {
     }
 
     @Test
-    void addTestException() {
+    void addDuplicationExceptionTest() {
         EmployeeManager employeeManager = EmployeeManager.GetInstance();
         try {
             for (int i = 0; i < employees.size(); i++) {
@@ -160,6 +161,17 @@ public class EmployeeManagerTest {
         });
 
         Assertions.assertEquals("There is no employeeNumber", exception.getMessage());
+    }
+
+    @Test
+    void excuteAddCommandTest() {
+        EmployeeManager employeeManager = EmployeeManager.GetInstance();
+        Command command = mock(Command.class);
+        when(command.getType()).thenReturn(CommandType.ADD);
+        when(command.getEmployee()).thenReturn(new Employee(758237, "홍삼", "CL1", "010-2341-5932", "20201111", "Advanced"));
+
+        employeeManager.excuteCommand(command);
+        Assertions.assertTrue(employeeManager.getEmployees().containsKey(758237));
     }
 }
 

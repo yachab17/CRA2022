@@ -1,9 +1,12 @@
 package Employee;
 
+import Command.*;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.ExecutionException;
 
 public class EmployeeManager {
     private static EmployeeManager employeeManager = new EmployeeManager();
@@ -18,7 +21,7 @@ public class EmployeeManager {
     }
 
     public void addCommand(Employee employee) throws Exception {
-        if(employeeMap.containsKey(employee.getEmployeeNumber()))
+        if (employeeMap.containsKey(employee.getEmployeeNumber()))
             throw new Exception("Duplication Empoyee Number");
 
         employeeMap.put(employee.getEmployeeNumber(), employee);
@@ -39,7 +42,7 @@ public class EmployeeManager {
         return resultEmployees;
     }
 
-    public List<Employee> updateCommand (Command command, ISearch searcher) throws Exception {
+    public List<Employee> updateCommand(Command command, ISearch searcher) throws Exception {
         List<Employee> resultEmployees = new ArrayList<Employee>();
         List<Integer> foundEmployeeNumbers = searcher.search(employeeMap, command);
 
@@ -57,16 +60,13 @@ public class EmployeeManager {
     private void updateColumnValue(Employee employee, Command command) {
         String targetColumn = command.getTargetColumn();
         String targetValue = command.getTargetValue();
-        if(targetColumn == "careerLevel") {
+        if (targetColumn == "careerLevel") {
             employee.setCareerLevel(targetValue);
-        }
-        else if(targetColumn =="telephoneNumber") {
+        } else if (targetColumn == "telephoneNumber") {
             employee.setTelephoneNumber(targetValue);
-        }
-        else if(targetColumn == "birthDay") {
+        } else if (targetColumn == "birthDay") {
             employee.setBirthDay(targetValue);
-        }
-        else if(targetColumn == "certiLevel") {
+        } else if (targetColumn == "certiLevel") {
             employee.setCertiLevel(targetValue);
         }
     }
@@ -83,6 +83,51 @@ public class EmployeeManager {
         }
 
         return resultEmployees;
+    }
+
+    public List<Employee> excuteCommand(Command command) {
+        List<Employee> resultEmployees = new ArrayList<Employee>();
+        try {
+            if (command.getType() == CommandType.ADD) {
+                addCommand(command.getEmployee());
+            } else if (command.getType() == CommandType.DEL) {
+                resultEmployees = deleteCommand(command, getSearcher(command));
+            }
+            else if (command.getType() == CommandType.SCH) {
+                resultEmployees = searchCommand(command, getSearcher(command));
+            }
+            else if (command.getType() == CommandType.MOD) {
+                resultEmployees = updateCommand(command, getSearcher(command));
+            }
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
+
+        return resultEmployees;
+    }
+
+    private ISearch getSearcher(Command command) throws Exception {
+        String sourceColumnName = command.getSourceColumn();
+        if (sourceColumnName == EmployeeParser.EMPLOYEE_NUMBER.toString()) {
+            return new EmployeeNumberSearch();
+        }
+        else if (sourceColumnName == EmployeeParser.NAME.name().toString()) {
+            return new NameSearch();
+        }
+        else if (sourceColumnName == EmployeeParser.CARRIER_LEVEL.name().toString()) {
+            return new CLSearch();
+        }
+        else if (sourceColumnName == EmployeeParser.TELEPHONE_NUMBER.name().toString()) {
+            return new TelephoneNumberSearch();
+        }
+        else if (sourceColumnName == EmployeeParser.BIRTH_DAY.name().toString()) {
+            return new BirthDaySearch();
+        }
+        else if (sourceColumnName == EmployeeParser.CERTI_LEVEL.name().toString()) {
+            return new CertiSearch();
+        }
+
+        throw new Exception("There is no search Column");
     }
 
     public Map<Integer, Employee> getEmployees() {
