@@ -15,7 +15,6 @@ public class EmployeeSortManager {
 
     public List<Employee> sortEmployeeByEmployeeNumber(List<Employee> employeeList) {
         employeeList.sort(this.employeeComparator);
-        List<Employee> result = new ArrayList<>(employeeList);
-        return result;
+        return new ArrayList<>(employeeList);
     }
 }
