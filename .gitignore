@@ -26,3 +26,9 @@ hs_err_pid*
 .idea
 .gradle
 build
+
+# unnecessary files
+*.drawio
+
+# backup files
+*.orig
