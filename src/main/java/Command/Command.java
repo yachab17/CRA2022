@@ -1,3 +1,5 @@
+package Command;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -18,6 +20,19 @@ public class Command {
         for(int i = 4; i < splitLine.length; i++) {
             etcArg.add(splitLine[i]);
         }
+    }
+
+    public String getSourceColumn() {
+        return etcArg.get(0);
+    }
+    public String getSourceValue() {
+        return etcArg.get(1);
+    }
+    public String getTargetColumn() {
+        return etcArg.get(2);
+    }
+    public String getTargetValue() {
+        return etcArg.get(3);
     }
 
     public CommandType getCommandType(String command) {
@@ -67,7 +82,7 @@ public class Command {
 
     @Override
     public String toString() {
-        return "Command{" +
+        return "Command.Command{" +
                 "type=" + type +
                 ", option1='" + option1 + '\'' +
                 ", option2='" + option2 + '\'' +

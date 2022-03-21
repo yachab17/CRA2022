@@ -1,5 +1,11 @@
+package Command;
+
 import static org.junit.jupiter.api.Assertions.*;
 
+import Command.Command;
+import Command.CommandParser;
+import Command.CommandType;
+import File.FileInputManager;
 import org.junit.jupiter.api.Test;
 
 import java.util.List;
