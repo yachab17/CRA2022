@@ -5,14 +5,13 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
-import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.*;
 
-public class EmployeeSortManagerTest {
+public class EmployeeSortManager {
     ArrayList<Employee> employees;
     EmployeeSortManager employeeSortManager;
     EmployeeNumberComparator employeeNumberComparator;
+
 
     @BeforeEach
     void setup() {
@@ -28,22 +27,23 @@ public class EmployeeSortManagerTest {
         employees.add(new Employee(99028902, "박쿠팡", "CL3", "010-1111-6420", "19311018", "Advanced"));
         employees.add(new Employee(69028902, "최이버", "CL4", "010-3333-3550", "19490118", "Expert"));
         employees.add(new Employee(75028902, "정스크", "CL4", "010-5555-6610", "19210518", "Expert"));
+
+    }
+    @Test
+    void comepareTest(){
         System.out.println("Before");
 
         for(Employee employee:employees) {
-            System.out.println(employee.getEmployeeNumberToString());
+            System.out.println(employee.getEmployeeNumber());
+        }
+
+        employees.sort(employeeNumberComparator);
+        System.out.println("After");
+        for(Employee employee:employees) {
+            System.out.println(employee.getEmployeeNumber());
         }
     }
 
-    @Test
-    void sortTest() {
-        List<Employee> employeeList = employeeSortManager.sortEmployeeByEmployeeNumber(employees);
-        System.out.println("After");
-        String[] answer = {"69028902", "75028902", "99028902", "00024732", "07022526", "12345678", "14028902", "22012934"};
-        for(int i = 0; i < answer.length; i++) {
-            assertEquals(answer[i], employees.get(i).getEmployeeNumberToString());
-            System.out.println(employees.get(i).getEmployeeNumberToString());
-        }
-    }
+
 
 }
