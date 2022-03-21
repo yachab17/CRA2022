@@ -25,4 +25,14 @@ hs_err_pid*
 # unnecessary folders
 .idea
 .gradle
+<<<<<<< HEAD
 build
+=======
+build
+
+# unnecessary files
+*.drawio
+
+# backup files
+*.orig
+>>>>>>> main
