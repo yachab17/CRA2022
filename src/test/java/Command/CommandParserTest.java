@@ -2,12 +2,10 @@ package Command;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-import Command.Command;
-import Command.CommandParser;
-import Command.CommandType;
-import File.FileInputManager;
+import File.FileManager;
 import org.junit.jupiter.api.Test;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class CommandParserTest {
@@ -17,7 +15,12 @@ public class CommandParserTest {
         String input1 = System.getProperty("user.dir") + "\\src\\test\\docs\\input_test.txt";
         String input2 = System.getProperty("user.dir") + "\\docs\\" + "input_20_20.txt";
         System.out.println(input2);
-        List<String> inputList = new FileInputManager().loadInput(input2);
+        List<String> inputList = new ArrayList<>();
+        try {
+            inputList = new FileManager().loadInput(input2);
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
 
         assertEquals(40, inputList.size());
 

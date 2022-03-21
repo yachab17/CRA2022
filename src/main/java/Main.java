@@ -1,7 +1,8 @@
 import Command.Command;
 import Command.CommandParser;
-import File.FileInputManager;
+import File.FileManager;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class Main {
@@ -10,8 +11,11 @@ public class Main {
         String inputFile = args[0]; // "input_20_20.txt"
         String outputFile = args[1]; // "output_20_20.txt"
 
-        FileInputManager fileInputManager = new FileInputManager();
-        List<Command> commandList = new CommandParser().getCommandList(fileInputManager.loadInput(inputFile));
+        FileManager fileManager = new FileManager();
+        List<Command> commandList = new CommandParser().getCommandList(fileManager.loadFileToStringList(inputFile));
+
+        List<String> resultList = new ArrayList<>();
+        
 
     }
 
