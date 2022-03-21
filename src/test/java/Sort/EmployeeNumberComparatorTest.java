@@ -73,7 +73,7 @@ public class EmployeeNumberComparatorTest {
         employee1 = employees.get(0);
         employee2 = employees.get(3);
 
-        assertEquals(-1, employeeNumberComparator.compare(employee1, employee2));
+        assertEquals(1, employeeNumberComparator.compare(employee1, employee2));
 
     }
 

@@ -2,6 +2,7 @@ package Sort;
 
 import Employee.Employee;
 
+import java.nio.charset.StandardCharsets;
 import java.util.Comparator;
 
 public class EmployeeNumberComparator implements Comparator<Employee> {
@@ -16,13 +17,16 @@ public class EmployeeNumberComparator implements Comparator<Employee> {
         int employeeNumber1 = employee1.getEmployeeNumber();
         int employeeNumber2 = employee2.getEmployeeNumber();
 
-        int prefixYear1 = getFirstTwoNumberOfYear(employeeNumber1);
-        int prefixYear2 = getFirstTwoNumberOfYear(employeeNumber2);
+        String employeeNumberStr1 = employee1.getEmployeeNumberToString();
+        String employeeNumberStr2 = employee2.getEmployeeNumberToString();
+
+        int prefixYear1 = getFirstTwoNumberOfYear(employeeNumberStr1);
+        int prefixYear2 = getFirstTwoNumberOfYear(employeeNumberStr2);
 
         if(prefixYear1 != prefixYear2) return prefixYear1 - prefixYear2;
         //if(employeeNumber1 > employeeNumber2) return 1;
         //return -1;
-        return Integer.toString(employeeNumber1).compareTo(Integer.toString(employeeNumber2));
+        return employeeNumberStr1.compareTo(employeeNumberStr2);
 
     }
 

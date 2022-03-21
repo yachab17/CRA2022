@@ -17,6 +17,10 @@ public class Employee {
         this.certiLevel = certiLevel;
     }
 
+    public String getEmployeeNumberToString() {
+        return String.format("%08d", employeeNumber);
+    }
+
     public int getEmployeeNumber() {
         return employeeNumber;
     }
