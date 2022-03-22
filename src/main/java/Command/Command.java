@@ -57,7 +57,6 @@ public class Command {
         return CommandType.valueOf(command);
     }
 
-
     public CommandType getType() {
         return type;
     }
