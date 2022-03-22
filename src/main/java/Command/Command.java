@@ -4,7 +4,6 @@ import Employee.Employee;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 import static Command.EmployeeParser.*;
 
@@ -64,9 +63,7 @@ public class Command {
         this.type = type;
     }
 
-    public String getOption1() {
-        return option1;
-    }
+    public String getOption1() { return option1; }
 
     public void setOption1(String option1) {
         this.option1 = option1;
