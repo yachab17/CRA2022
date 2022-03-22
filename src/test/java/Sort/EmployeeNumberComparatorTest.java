@@ -34,12 +34,13 @@ public class EmployeeNumberComparatorTest {
 
     @Test
     void getYearTest(){
-        int[] employeeNumbers = {69, 70, 85, 88, 99, 00, 01, 05, 10, 15, 19, 22};
-        int[] outputNumbers = {19, 19, 19, 19, 19, 20, 20, 20, 20, 20, 20, 20};
+        int[] employeeNumbers = {12345678, 22012934, 14028902, Integer.parseInt("00024732"), Integer.parseInt("07022526"), 99028902, 69028902, 75028902};
+        int[] outputNumbers = {2012345678, 2022012934, 2014028902, 2000024732, 2007022526, 1999028902, 1969028902, 1975028902};
 
         for(int i = 0; i < employeeNumbers.length; i++){
-            int result = employeeNumberComparator.getFirstTwoNumberOfYear(employeeNumbers[i]);
+            int result = employeeNumberComparator.getYYYYFormatFromEmployeeNumber(employeeNumbers[i]);
             assertEquals(outputNumbers[i], result);
+            System.out.println("BEFORE / AFTER : " + employeeNumbers[i] + " / " + result );
         }
     }
 
@@ -51,8 +52,8 @@ public class EmployeeNumberComparatorTest {
         System.out.println(employee1.getEmployeeNumberToString());
         System.out.println(employee2.getEmployeeNumberToString());
 
-        assertEquals(20, employeeNumberComparator.getFirstTwoNumberOfYear(employee1.getEmployeeNumberToString()));
-        assertEquals(19, employeeNumberComparator.getFirstTwoNumberOfYear(employee2.getEmployeeNumberToString()));
+        assertEquals(12, employeeNumberComparator.getYearFromEmployeeNumber(employee1.getEmployeeNumber()));
+        assertEquals(75, employeeNumberComparator.getYearFromEmployeeNumber(employee2.getEmployeeNumber()));
 
     }
 
@@ -61,13 +62,17 @@ public class EmployeeNumberComparatorTest {
         Employee employee1 = employees.get(0);
         Employee employee2 = employees.get(employees.size()-1);
 
-        assertEquals(1, employeeNumberComparator.compare(employee1, employee2));
+        assertEquals(true, employeeNumberComparator.compare(employee1, employee2) >= 1);
 
         employee1 = employees.get(0);
         employee2 = employees.get(3);
 
-        assertEquals(1, employeeNumberComparator.compare(employee1, employee2));
+        assertEquals(true, employeeNumberComparator.compare(employee1, employee2) >= 1);
 
+        employee1 = employees.get(0);
+        employee2 = employees.get(2);
+
+        assertEquals(true, employeeNumberComparator.compare(employee1, employee2) <= -1);
     }
 
 }
