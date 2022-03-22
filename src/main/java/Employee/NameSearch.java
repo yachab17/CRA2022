@@ -12,8 +12,10 @@ public class NameSearch implements ISearch {
 
         Iterator<Map.Entry<Integer, Employee>> entries = employeemap.entrySet().iterator();
 
+        // Refactoring 필요
         if((command.getOption2() != null) || (command.getOption3() !=null)){
-            // optional search
+            NameOptionSearch nameOptionSearch = new NameOptionSearch();
+            return nameOptionSearch.search(employeemap, command);
         }
         else{
             while(entries.hasNext()){
