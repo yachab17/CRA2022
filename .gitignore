@@ -32,3 +32,6 @@ build
 
 # backup files
 *.orig
+
+# META_INF
+META-INF

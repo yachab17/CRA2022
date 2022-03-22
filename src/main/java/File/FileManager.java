@@ -6,13 +6,10 @@ import java.util.List;
 
 public class FileManager {
 
-    private static String docPath = "docs";
-
     public List<String> loadFileToStringList(String inputFile) {
         List<String> result = new ArrayList<>();
         if(!isValidFileName(inputFile)) return result;
 
-        inputFile = covertRelativePath(inputFile);
         if(!isFileExist(inputFile)) return result;
 
         try {
@@ -37,7 +34,6 @@ public class FileManager {
     public void saveStringListToFile(List<String> resultList, String outputFile) {
         if(resultList == null) return;
         if(!isValidFileName(outputFile)) return;
-        outputFile = covertRelativePath(outputFile);
         try {
             saveOutput(resultList, outputFile);
         } catch (Exception e) {
@@ -55,9 +51,6 @@ public class FileManager {
         printWriter.close();
     }
 
-    public String covertRelativePath(String inputFile) {
-        return System.getProperty("user.dir") + "\\" + docPath + "\\" + inputFile;
-    }
 
     public boolean isValidFileName(String name) {
         return (name != null && name.length() <= 30 && name.length() > 0 );
