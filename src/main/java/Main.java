@@ -1,11 +1,6 @@
-import Command.Command;
-import Command.CommandParser;
-import Employee.Employee;
-import Employee.EmployeeManager;
+import Command.CommandExecutor;
 import File.FileManager;
-import OutputManager.OutputManager;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class Main {
@@ -15,21 +10,14 @@ public class Main {
         String outputFile = args[1]; // "output_20_20.txt"
 
         FileManager fileManager = new FileManager();
-        List<Command> commandList = new CommandParser().getCommandList(fileManager.loadFileToStringList(inputFile));
-
-        fileManager.saveStringListToFile(getOutputStringList(commandList), outputFile);
+        CommandExecutor commandExecutor = new CommandExecutor();
+        List<String> inputLineList = fileManager.loadFileToStringList(inputFile);
+        List<String> outputLineList = commandExecutor.commandExecute(inputLineList);
+        fileManager.saveStringListToFile(outputLineList, outputFile);
 
     }
 
-    public static List<String> getOutputStringList(List<Command> commandList) {
-        OutputManager outputManager = new OutputManager();
-        List<String> resultList = new ArrayList<>();
-        for (Command command : commandList) {
-            String result = outputManager.getOutputString(command, EmployeeManager.GetInstance().excuteCommand(command));
-            resultList.add(result);
-        }
-        return resultList;
-    }
+
 
     public static boolean isValidArgs(String[] inputArgs) {
         return (inputArgs != null && inputArgs.length == 2);
