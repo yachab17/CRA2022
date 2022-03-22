@@ -5,6 +5,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.mock;
 
 import Employee.Employee;
+import Employee.EmployeeManager;
 import File.FileManager;
 import OutputManager.OutputManager;
 import org.junit.jupiter.api.BeforeEach;
@@ -15,6 +16,7 @@ import java.util.List;
 
 public class CommandExecutorTest {
     OutputManager outputManager;
+    EmployeeManager employeeManager;
     ArrayList<Employee> employees;
     CommandExecutor commandExecutor;
     Command command;
@@ -23,6 +25,7 @@ public class CommandExecutorTest {
 
     @BeforeEach
     void setup() {
+        employeeManager = EmployeeManager.GetInstance();
         outputManager = new OutputManager();
         commandExecutor = new CommandExecutor();
 
@@ -55,17 +58,8 @@ public class CommandExecutorTest {
 
     @Test
     void commandExcutorTest() {
-        List<String> outputList = commandExecutor.commandExecute(inputLineList);
-        for (int i = 0; i < outputList.size(); i++) {
-            System.out.println(outputList.get(i).replace("\n", "").replace("\r", ""));
-            if(outputList.get(i).replace("\n", "").replace("\r", "").equals("")) outputList.remove(i);
-        }
         assertAll(
-                () -> {
-                    for(int i = 0; i < outputLineListAns.size() ; i++) {
-                        assertEquals(outputLineListAns.get(i), outputList.get(i).replace("\n", "").replace("\r", ""));
-                    }
-                }
+                () -> commandExecutor.commandExecute(inputLineList)
         );
     }
 

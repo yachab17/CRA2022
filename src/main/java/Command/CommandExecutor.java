@@ -29,7 +29,6 @@ public class CommandExecutor {
     public List<String> getOutputLineList(List<Command> commandList) {
         List<String> resultList = new ArrayList<>();
         for (Command command : commandList) {
-            if(!command.isNeedOutputString()) continue;
             String result = outputManager.getOutputString(command, employeeManager.excuteCommand(command));
             resultList.add(result);
         }
