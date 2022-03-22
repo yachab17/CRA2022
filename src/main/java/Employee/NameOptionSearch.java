@@ -16,11 +16,11 @@ public class NameOptionSearch implements ISearch {
         List<Integer> result = new ArrayList<>();
         List<Map.Entry<Integer, Employee>> filterList = new ArrayList<>();
 
-        if (command.getOption2() == OPTION_FIRST_NAME) {
+        if (command.getOption2().equals(OPTION_FIRST_NAME)) {
             filterList = employeemap.entrySet().stream()
                     .filter(employee -> EqualsFirstName(employee.getValue().getName(), searchWord))
                     .collect(Collectors.toList());
-        } else if (command.getOption2() == OPTION_LAST_NAME) {
+        } else if (command.getOption2().equals(OPTION_LAST_NAME)) {
             filterList = employeemap.entrySet().stream()
                     .filter(employee -> EqualsLastName(employee.getValue().getName(), searchWord))
                     .collect(Collectors.toList());

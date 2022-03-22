@@ -18,11 +18,11 @@ public class TelephoneNumberOptionSearch implements ISearch {
         List<Integer> result = new ArrayList<>();
         List<Map.Entry<Integer, Employee>> filterList = new ArrayList<>();
 
-        if (command.getOption2() == OPTION_MIDDLE_PHONE) {
+        if (command.getOption2().equals(OPTION_MIDDLE_PHONE)) {
             filterList = employeemap.entrySet().stream()
                     .filter(employee -> EqualsMiddlePhone(employee.getValue().getTelephoneNumber(), searchWord))
                     .collect(Collectors.toList());
-        } else if (command.getOption2() == OPTION_LAST_PHONE) {
+        } else if (command.getOption2().equals(OPTION_LAST_PHONE)) {
             filterList = employeemap.entrySet().stream()
                     .filter(employee -> EqualsLastPhone(employee.getValue().getTelephoneNumber(), searchWord))
                     .collect(Collectors.toList());
