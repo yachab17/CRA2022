@@ -3,14 +3,14 @@ package Employee;
 import Command.Command;
 
 import java.util.*;
+import java.util.stream.Collectors;
 
 public class NameSearch implements ISearch {
     @Override
     public List<Integer> search(Map<Integer, Employee> employeemap, Command command) {
 
-        List<Integer> resultList = new ArrayList<>();
-
-        Iterator<Map.Entry<Integer, Employee>> entries = employeemap.entrySet().iterator();
+        List<Integer> result = new ArrayList<>();
+        List<Map.Entry<Integer, Employee>> filterList;
 
         // Refactoring 필요
         if((command.getOption2() != null) && (!command.getOption2().equals(" "))
@@ -19,15 +19,18 @@ public class NameSearch implements ISearch {
             return nameOptionSearch.search(employeemap, command);
         }
         else{
-            while(entries.hasNext()){
-                Map.Entry<Integer, Employee> entry = entries.next();
-                if(entry.getValue().getName().equals(command.getSourceValue())){
-                    resultList.add(entry.getKey());
+            filterList = employeemap.entrySet().stream()
+                    .filter(employee -> equals(employee.getValue().getName(), command.getSourceValue()))
+                    .collect(Collectors.toList());
 
-                }
+            for(Map.Entry<Integer, Employee> employeeEntry : filterList) {
+                result.add(employeeEntry.getKey());
             }
+            return result;
         }
+    }
 
-        return resultList;
+    private boolean equals(String name, String sourceValue) {
+        return name.compareTo(sourceValue) == 0;
     }
 }

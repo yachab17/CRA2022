@@ -6,21 +6,25 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 public class CertiSearch implements ISearch {
     @Override
     public List<Integer> search(Map<Integer, Employee> employeemap, Command command) {
-        List<Integer> resultList = new ArrayList<>();
+        List<Integer> result = new ArrayList<>();
+        List<Map.Entry<Integer, Employee>> filterList;
 
-        Iterator<Map.Entry<Integer, Employee>> entries = employeemap.entrySet().iterator();
+        filterList = employeemap.entrySet().stream()
+                .filter(employee -> equals(employee.getValue().getCertiLevel(), command.getSourceValue()))
+                .collect(Collectors.toList());
 
-        while (entries.hasNext()) {
-            Map.Entry<Integer, Employee> entry = entries.next();
-            if (entry.getValue().getCertiLevel().equals(command.getSourceValue())) {
-                resultList.add(entry.getKey());
-            }
+        for(Map.Entry<Integer, Employee> employeeEntry : filterList) {
+            result.add(employeeEntry.getKey());
         }
+        return result;
+    }
 
-        return resultList;
+    private boolean equals(String certilevel, String sourceValue) {
+        return certilevel.compareTo(sourceValue) == 0;
     }
 }
