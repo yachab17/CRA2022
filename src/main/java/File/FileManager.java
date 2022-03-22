@@ -6,8 +6,6 @@ import java.util.List;
 
 public class FileManager {
 
-    private static String docPath = "docs";
-
     public List<String> loadFileToStringList(String inputFile) {
         List<String> result = new ArrayList<>();
         if(!isValidFileName(inputFile)) return result;
