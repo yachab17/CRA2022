@@ -16,7 +16,7 @@ public class CLSearch implements ISearch {
 
         while (entries.hasNext()) {
             Map.Entry<Integer, Employee> entry = entries.next();
-            if (entry.getValue().getBirthDay().equals(command.getSourceValue())) {
+            if (entry.getValue().getCareerLevel().equals(command.getSourceValue())) {
                 resultList.add(entry.getKey());
             }
         }

@@ -19,15 +19,15 @@ public class BirthDatOptionSearch implements ISearch {
         List<Integer> result = new ArrayList<>();
         List<Map.Entry<Integer, Employee>> filterList = new ArrayList<>();
 
-        if (command.getOption2() == OPTION_YEAR) {
+        if (command.getOption2().equals(OPTION_YEAR)) {
             filterList = employeemap.entrySet().stream()
                     .filter(employee -> EqualsYear(employee.getValue().getBirthDay(), searchWord))
                     .collect(Collectors.toList());
-        } else if (command.getOption2() == OPTION_MONTH) {
+        } else if (command.getOption2().equals(OPTION_MONTH)) {
             filterList = employeemap.entrySet().stream()
                     .filter(employee -> EqualsMonth(employee.getValue().getBirthDay(), searchWord))
                     .collect(Collectors.toList());
-        } else if (command.getOption2() == OPTION_DAY) {
+        } else if (command.getOption2().equals(OPTION_DAY)) {
             filterList = employeemap.entrySet().stream()
                     .filter(employee -> EqualsDay(employee.getValue().getBirthDay(), searchWord))
                     .collect(Collectors.toList());
