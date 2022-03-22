@@ -29,85 +29,37 @@ public class EmployeeManager {
         employeeMap.put(employee.getEmployeeNumber(), employee);
     }
 
-    public List<Employee> deleteCommand(Command command, ISearch searcher) throws Exception {
-        List<Employee> resultEmployees = new ArrayList<Employee>();
-        List<Integer> foundEmployeeNumbers = searcher.search(employeeMap, command);
-
-        for (int employeeNumber : foundEmployeeNumbers) {
-            if (!employeeMap.containsKey(employeeNumber))
-                throw new Exception("There is no employeeNumber");
-
-            resultEmployees.add((Employee) employeeMap.get(employeeNumber).clone());
-            employeeMap.remove(employeeNumber);
-        }
-
-        return resultEmployees;
-    }
-
-    public List<Employee> updateCommand(Command command, ISearch searcher) throws Exception {
-        List<Employee> resultEmployees = new ArrayList<Employee>();
-        List<Integer> foundEmployeeNumbers = searcher.search(employeeMap, command);
-
-        for (int employeeNumber : foundEmployeeNumbers) {
-            if (!employeeMap.containsKey(employeeNumber))
-                throw new Exception("There is no employeeNumber");
-
-            resultEmployees.add((Employee) employeeMap.get(employeeNumber).clone());
-            updateColumnValue(employeeMap.get(employeeNumber), command);
-        }
-
-        return resultEmployees;
-    }
-
-    private void updateColumnValue(Employee employee, Command command) throws Exception {
-        String targetColumn = command.getTargetColumn();
-        String targetValue = command.getTargetValue();
-        if (targetColumn.equals(EmployeeParser.CARRIER_LEVEL.toString())) {
-            employee.setCareerLevel(targetValue);
-        } else if (targetColumn.equals(EmployeeParser.TELEPHONE_NUMBER.toString())) {
-            employee.setTelephoneNumber(targetValue);
-        } else if (targetColumn.equals(EmployeeParser.BIRTH_DAY.toString())) {
-            employee.setBirthDay(targetValue);
-        } else if (targetColumn.equals(EmployeeParser.CERTI_LEVEL.toString())) {
-            employee.setCertiLevel(targetValue);
-        } else if (targetColumn.equals(EmployeeParser.NAME.toString())) {
-            employee.setName(targetValue);
-        }
-        else {
-            throw new Exception("Invalid Column Name");
-        }
-    }
-
-
-    public List<Employee> searchCommand(Command command, ISearch searcher) throws Exception {
-        List<Employee> resultEmployees = new ArrayList<Employee>();
-        List<Integer> foundEmployeeNumbers = searcher.search(employeeMap, command);
-        for (int employeeNumber : foundEmployeeNumbers) {
-            if (!employeeMap.containsKey(employeeNumber))
-                throw new Exception("There is no employeeNumber");
-
-            resultEmployees.add(employeeMap.get(employeeNumber));
-        }
-
-        return resultEmployees;
-    }
-
     public List<Employee> excuteCommand(Command command) {
         List<Employee> resultEmployees = new ArrayList<Employee>();
         try {
             if (command.getType() == CommandType.ADD) {
                 addCommand(command.getEmployee());
             } else if (command.getType() == CommandType.DEL) {
-                resultEmployees = deleteCommand(command, getSearcher(command));
+                resultEmployees = runCommand(command, getSearcher(command), new EmployeeRemover());
             }
             else if (command.getType() == CommandType.SCH) {
-                resultEmployees = searchCommand(command, getSearcher(command));
+                resultEmployees = runCommand(command, getSearcher(command), new EmployeeSearcher());
             }
             else if (command.getType() == CommandType.MOD) {
-                resultEmployees = updateCommand(command, getSearcher(command));
+                resultEmployees = runCommand(command, getSearcher(command), new EmployeeUpdater());
             }
         } catch (Exception e) {
             System.out.println(e.getMessage());
+        }
+
+        return resultEmployees;
+    }
+
+    public List<Employee> runCommand(Command command, ISearch searcher, EmployeeSync sync) throws Exception {
+        List<Employee> resultEmployees = new ArrayList<Employee>();
+        List<Integer> foundEmployeeNumbers = searcher.search(employeeMap, command);
+
+        for (int employeeNumber : foundEmployeeNumbers) {
+            if (!employeeMap.containsKey(employeeNumber))
+                throw new Exception("There is no employeeNumber");
+
+            resultEmployees.add((Employee) employeeMap.get(employeeNumber).clone());
+            sync.synchronizeEmployee(employeeMap, employeeMap.get(employeeNumber), command);
         }
 
         return resultEmployees;

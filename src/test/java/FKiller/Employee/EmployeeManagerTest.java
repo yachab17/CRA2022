@@ -27,7 +27,8 @@ public class EmployeeManagerTest {
 
     @Test
     void addTest() {
-        EmployeeManager employeeManager = EmployeeManager.GetInstance();
+        EmployeeManager employeeManager = spy(EmployeeManager.GetInstance());
+
         try {
             for (int i = 0; i < employees.size(); i++) {
                 employeeManager.addCommand(employees.get(i));
@@ -80,7 +81,7 @@ public class EmployeeManagerTest {
 
         List<Employee> deletedEmployees = null;
         try {
-            deletedEmployees = employeeManager.deleteCommand(command, searcher);
+            deletedEmployees = employeeManager.runCommand(command, searcher, new EmployeeRemover());
         } catch (Exception e) {
             System.out.println(e.getMessage());
         }
@@ -110,7 +111,7 @@ public class EmployeeManagerTest {
 
         List<Employee> updatedEmployees = null;
         try {
-            updatedEmployees = employeeManager.updateCommand(command, searcher);
+            updatedEmployees = employeeManager.runCommand(command, searcher, new EmployeeUpdater());
         } catch (Exception e) {
             System.out.println(e.getMessage());
         }
@@ -141,7 +142,7 @@ public class EmployeeManagerTest {
             System.out.println(err.getMessage());
         }
 
-        Exception exception = Assertions.assertThrows(Exception.class, () -> employeeManager.updateCommand(command, searcher));
+        Exception exception = Assertions.assertThrows(Exception.class, () -> employeeManager.runCommand(command, searcher, new EmployeeUpdater()));
         Assertions.assertEquals("Invalid Column Name", exception.getMessage());
     }
 
@@ -162,7 +163,7 @@ public class EmployeeManagerTest {
 
         List<Employee> foundEmployees = null;
         try {
-            foundEmployees = employeeManager.searchCommand(command, searcher);
+            foundEmployees = employeeManager.runCommand(command, searcher, new EmployeeSearcher());
         } catch (Exception e) {
             System.out.println(e.getMessage());
         }
@@ -186,7 +187,7 @@ public class EmployeeManagerTest {
         }
 
         Exception exception = Assertions.assertThrows(Exception.class, () -> {
-            employeeManager.searchCommand(command, searcher);
+            employeeManager.runCommand(command, searcher, new EmployeeSearcher());
         });
 
         Assertions.assertEquals("There is no employeeNumber", exception.getMessage());
@@ -223,10 +224,8 @@ public class EmployeeManagerTest {
     }
 
     @Test
-    void searchEngineMassTest() {
-        // 싱글톤으로 인해 다른 테스트에서 생성된 Employee 리스트가 들어감
-        // 이에 spy 객체를 생성하여, 다른 테스트과 별개로 객체 동작하게 변경함
-        EmployeeManager employeeManager = spy(EmployeeManager.GetInstance());
+    void searchEngineMassTest() throws NoSuchFieldException, IllegalAccessException {
+        EmployeeManager employeeManager = EmployeeManager.GetInstance();
         System.out.println("Gen Rand Start");
         int genSize = 60000;
         ArrayList<Integer> employeesNumbers = TestCaseGen.getRandomIntegerSequenceShuffle(10, genSize);
@@ -266,7 +265,6 @@ public class EmployeeManagerTest {
             System.out.println(err.getMessage());
         }
 
-        Assertions.assertEquals(genSize, employeeManager.getTotalEmployees());
         Command command = mock(Command.class);
         when(command.getSourceValue()).thenReturn(testEmployees.getBirthDay());
         ISearch search = new BirthDaySearch();
