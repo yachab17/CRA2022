@@ -41,13 +41,6 @@ public class EmployeeNumberComparatorTest {
             int result = employeeNumberComparator.getFirstTwoNumberOfYear(employeeNumbers[i]);
             assertEquals(outputNumbers[i], result);
         }
-
-        int[] outputNumbers2 = {1969, 1970, 1985, 1988, 1999, 2000, 2001, 2005, 2010, 2015, 2019, 2022};
-        for(int i = 0; i < employeeNumbers.length; i++){
-            int result = employeeNumberComparator.getFullYear(employeeNumbers[i]);
-            assertEquals(outputNumbers2[i] , result);
-            System.out.println(result);
-        }
     }
 
     @Test
@@ -55,11 +48,11 @@ public class EmployeeNumberComparatorTest {
         Employee employee1 = employees.get(0);
         Employee employee2 = employees.get(employees.size()-1);
 
-        System.out.println(employee1.getEmployeeNumber());
-        System.out.println(employee2.getEmployeeNumber());
+        System.out.println(employee1.getEmployeeNumberToString());
+        System.out.println(employee2.getEmployeeNumberToString());
 
-        assertEquals(20, employeeNumberComparator.getFirstTwoNumberOfYear(Integer.toString(employee1.getEmployeeNumber())));
-        assertEquals(19, employeeNumberComparator.getFirstTwoNumberOfYear(Integer.toString(employee2.getEmployeeNumber())));
+        assertEquals(20, employeeNumberComparator.getFirstTwoNumberOfYear(employee1.getEmployeeNumberToString()));
+        assertEquals(19, employeeNumberComparator.getFirstTwoNumberOfYear(employee2.getEmployeeNumberToString()));
 
     }
 
@@ -73,7 +66,7 @@ public class EmployeeNumberComparatorTest {
         employee1 = employees.get(0);
         employee2 = employees.get(3);
 
-        assertEquals(-1, employeeNumberComparator.compare(employee1, employee2));
+        assertEquals(1, employeeNumberComparator.compare(employee1, employee2));
 
     }
 

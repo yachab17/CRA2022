@@ -43,11 +43,17 @@ public class Command {
     public String getTargetValue() {
         return etcArg.get(3);
     }
+    public boolean isNeedOutputString() {
+        return !type.equals(CommandType.ADD);
+    }
+
+    public boolean isOptionPrint() {
+        return (option1.equals(CommandOption.PRINT.toString()));
+    }
 
     public CommandType getCommandType(String command) {
         return CommandType.valueOf(command);
     }
-
 
     public CommandType getType() {
         return type;
