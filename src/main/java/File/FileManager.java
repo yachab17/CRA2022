@@ -43,16 +43,14 @@ public class FileManager {
         } catch (Exception e) {
             System.out.println(e.getMessage());
         }
-
-
     }
+
     public void saveOutput(List<String> resultList, String outputFile) throws IOException {
         PrintWriter printWriter = new PrintWriter(outputFile);
         for (String result : resultList) {
             if(result == null || result.trim().isEmpty()) continue;
             printWriter.println(result.trim());
         }
-
         printWriter.flush();
         printWriter.close();
     }
@@ -62,7 +60,7 @@ public class FileManager {
     }
 
     public boolean isValidFileName(String name) {
-        return (name != null && name.length() <= 15 && name.length() > 0 );
+        return (name != null && name.length() <= 30 && name.length() > 0 );
     }
 
     public boolean isFileExist(String inputFile) {

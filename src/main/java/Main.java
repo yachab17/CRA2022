@@ -1,7 +1,9 @@
 import Command.Command;
 import Command.CommandParser;
+import Employee.Employee;
 import Employee.EmployeeManager;
 import File.FileManager;
+import OutputManager.OutputManager;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -15,9 +17,18 @@ public class Main {
         FileManager fileManager = new FileManager();
         List<Command> commandList = new CommandParser().getCommandList(fileManager.loadFileToStringList(inputFile));
 
-        List<String> resultList = new ArrayList<>();
-        
+        fileManager.saveStringListToFile(getOutputStringList(commandList), outputFile);
 
+    }
+
+    public static List<String> getOutputStringList(List<Command> commandList) {
+        OutputManager outputManager = new OutputManager();
+        List<String> resultList = new ArrayList<>();
+        for (Command command : commandList) {
+            String result = outputManager.getOutputString(command, EmployeeManager.GetInstance().excuteCommand(command));
+            resultList.add(result);
+        }
+        return resultList;
     }
 
     public static boolean isValidArgs(String[] inputArgs) {

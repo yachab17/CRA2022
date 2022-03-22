@@ -11,8 +11,10 @@ public class MainTest {
 
     @Test
     void mainTest() {
-        String[] inputArgs = {"input_20_20.txt", "output_20_20.txt"};
+        String[] inputArgs = {"input_20_20.txt", "output_20_20_1.txt"};
         Main.main(inputArgs);
+
+
     }
 
 

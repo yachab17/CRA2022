@@ -3,15 +3,17 @@ package OutputManager;
 import Command.Command;
 import Employee.Employee;
 import Sort.EmployeeNumberComparator;
-import Sort.EmployeeSortManager;
+import Employee.EmployeeManager;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class OutputManager {
-    public String NONE_OUTPUT_STRING = ",NONE";
+    public String NONE_OUTPUT_STRING = "NONE";
     public String LINE_BREAK = "\n";
     public String DELIMITER = ",";
     public int MAX_PRINT_COUNT = 5;
+
 
     public String getOutputString(Command command, List<Employee> employeeList) {
 
@@ -19,32 +21,31 @@ public class OutputManager {
         String commandType = command.getType().name();
 
         if(employeeList == null || employeeList.size() == 0) {
-            return getOutputLineFromString(commandType, NONE_OUTPUT_STRING);
+            return getOutputStringNoOption(commandType, NONE_OUTPUT_STRING);
         }
         if(!command.isOptionPrint()) {
-            return getOutputLineFromString(commandType, Integer.toString(employeeList.size()));
+            return getOutputStringNoOption(commandType, Integer.toString(employeeList.size()));
         }
 
         EmployeeNumberComparator employeeNumberComparator = new EmployeeNumberComparator();
         employeeList.sort(employeeNumberComparator);
 
-        return getOutputLineFromEmployeeList(commandType, employeeList);
+        return getOutputStringWithPrintOption(commandType, employeeList);
     }
 
-    public String getOutputLineFromEmployeeList(String commandType, List<Employee> employeeList) {
+    public String getOutputStringWithPrintOption(String commandType, List<Employee> employeeList) {
         StringBuilder result = new StringBuilder();
         for( int i = 0; i < MAX_PRINT_COUNT && i < employeeList.size(); i++ ) {
-            result.append(commandType).append(DELIMITER).append(getStringFromEmployee(employeeList.get(i)));
+            result.append(commandType).append(DELIMITER).append(toStringFromEmployee(employeeList.get(i)));
         }
         return result.toString();
     }
 
-    public String getOutputLineFromString(String commandType, String contents) {
+    public String getOutputStringNoOption(String commandType, String contents) {
         return commandType + DELIMITER + contents + LINE_BREAK;
     }
 
-
-    public String getStringFromEmployee(Employee employee) {
+    public String toStringFromEmployee(Employee employee) {
         StringBuilder result = new StringBuilder();
         return result.append(employee.getEmployeeNumberToString()).append(DELIMITER)
                 .append(employee.getName()).append(DELIMITER)
