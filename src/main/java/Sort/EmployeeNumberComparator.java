@@ -28,7 +28,6 @@ public class EmployeeNumberComparator implements Comparator<Employee> {
 
     public int getFullYearFromEmployeeNumber(int employeeNumber) {
         int year = getYearFromEmployeeNumber(employeeNumber);
-        System.out.println("employeeNumber, year" + employeeNumber + ", " + year);
         if( (year >= START_YEAR_1900) && (year <= END_YEAR_1900)) {
             return year + ADD_YEAR_1900;
         }
