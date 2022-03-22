@@ -1,6 +1,7 @@
 package Employee;
 
 import Command.*;
+import TestCaseGenerator.TestCaseGen;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -13,10 +14,10 @@ public class EmployeeManagerTest {
 
     @BeforeEach
     void setup() {
-        employees = new ArrayList<Employee>();
-        employees.add(new Employee(12345678, "네이버", "CL3", "010-7342-4440", "20020304", "Expert"));
-        employees.add(new Employee(22012934, "김삼성", "CL2", "010-1234-5822", "19890601", "Professional"));
-        employees.add(new Employee(14028902, "카카오", "CL2", "010-8512-3120", "19911018", "Advanced"));
+//        employees = new ArrayList<Employee>();
+//        employees.add(new Employee(12345678, "네이버", "CL3", "010-7342-4440", "20020304", "Expert"));
+//        employees.add(new Employee(22012934, "김삼성", "CL2", "010-1234-5822", "19890601", "Professional"));
+//        employees.add(new Employee(14028902, "카카오", "CL2", "010-8512-3120", "19911018", "Advanced"));
     }
 
     @Test
@@ -172,6 +173,25 @@ public class EmployeeManagerTest {
 
         employeeManager.excuteCommand(command);
         Assertions.assertTrue(employeeManager.getEmployees().containsKey(758237));
+    }
+
+    @Test
+    void searchEngineTest() {
+        EmployeeManager employeeManager = EmployeeManager.GetInstance();
+        Command command = mock(Command.class);
+        when(command.getSourceValue()).thenReturn("19911018");
+        try {
+            for (int i = 0; i < employees.size(); i++) {
+                employeeManager.addCommand(employees.get(i));
+            }
+        }
+        catch (Exception err) {
+            System.out.println(err.getMessage());
+        }
+
+        ISearch search = new BirthDaySearch();
+        List<Integer> result = search.search(employeeManager.getEmployees(), command);
+        Assertions.assertEquals(14028902, result.get(0));
     }
 }
 
