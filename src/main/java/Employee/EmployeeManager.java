@@ -6,7 +6,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.concurrent.ExecutionException;
 
 public class EmployeeManager {
     private static EmployeeManager employeeManager = new EmployeeManager();
@@ -57,17 +56,23 @@ public class EmployeeManager {
         return resultEmployees;
     }
 
-    private void updateColumnValue(Employee employee, Command command) {
+    private void updateColumnValue(Employee employee, Command command) throws Exception {
         String targetColumn = command.getTargetColumn();
         String targetValue = command.getTargetValue();
-        if (targetColumn == "careerLevel") {
+        if (targetColumn == EmployeeParser.CARRIER_LEVEL.toString()) {
             employee.setCareerLevel(targetValue);
-        } else if (targetColumn == "telephoneNumber") {
+        } else if (targetColumn == EmployeeParser.TELEPHONE_NUMBER.toString()) {
             employee.setTelephoneNumber(targetValue);
-        } else if (targetColumn == "birthDay") {
+        } else if (targetColumn == EmployeeParser.BIRTH_DAY.toString()) {
             employee.setBirthDay(targetValue);
-        } else if (targetColumn == "certiLevel") {
+        } else if (targetColumn == EmployeeParser.CERTI_LEVEL.toString()) {
             employee.setCertiLevel(targetValue);
+        }
+        else if (targetColumn == EmployeeParser.NAME.toString()) {
+            employee.setName(targetValue);
+        }
+        else {
+            throw new Exception("Invalid Column Name");
         }
     }
 
