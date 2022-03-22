@@ -34,7 +34,6 @@ public class OutputManager {
     public String getOutputLineFromEmployeeList(String commandType, List<Employee> employeeList) {
         StringBuilder result = new StringBuilder();
         for( int i = 0; i < MAX_PRINT_COUNT && i < employeeList.size(); i++ ) {
-//            result.append(commandType).append(DELIMITER).append(employeeList.get(i).toString());
             result.append(commandType).append(DELIMITER).append(getStringFromEmployee(employeeList.get(i)));
         }
         return result.toString();

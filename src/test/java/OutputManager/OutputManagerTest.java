@@ -44,33 +44,39 @@ public class OutputManagerTest {
     @Test
     void getOutputLineFromString() {
         Command command = mock(Command.class);
+        System.out.println("TEST1 : ADD");
         when(command.getType()).thenReturn(CommandType.ADD);
         when(command.isNeedOutputString()).thenReturn(false);
         when(command.getOption1()).thenReturn("-p");
-
+        String result = outputManager.getOutputString(command, employees);
         assertEquals(false, command.isNeedOutputString());
         assertEquals("-p", command.getOption1());
-        assertEquals("", outputManager.getOutputString(command, employees));
+        assertEquals("", result);
+        System.out.println(result);
 
+
+        System.out.println("TEST2 : ADD");
         when(command.getType()).thenReturn(CommandType.ADD);
         when(command.isNeedOutputString()).thenReturn(false);
         when(command.getOption1()).thenReturn(" ");
+        result = outputManager.getOutputString(command, employees);
+        assertEquals("", result);
+        System.out.println(result);
 
-        assertEquals("", outputManager.getOutputString(command, employees));
-
+        System.out.println("TEST3 : DEL without -p");
         when(command.getType()).thenReturn(CommandType.DEL);
         when(command.isNeedOutputString()).thenReturn(true);
         when(command.isOptionPrint()).thenReturn(false);
         when(command.getOption1()).thenReturn(" ");
+        result = outputManager.getOutputString(command, employees);
+        assertEquals("DEL,8\n", result);
+        System.out.println(result);
 
-        assertEquals("DEL,8\n", outputManager.getOutputString(command, employees));
-
+        System.out.println("TEST4 : DEL with p");
         when(command.getType()).thenReturn(CommandType.DEL);
         when(command.isNeedOutputString()).thenReturn(true);
         when(command.isOptionPrint()).thenReturn(true);
         when(command.getOption1()).thenReturn("-p");
-
-
         assertAll(
                 () -> System.out.println(outputManager.getOutputString(command, employees))
         );
