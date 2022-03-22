@@ -1,4 +1,6 @@
 import static org.junit.jupiter.api.Assertions.*;
+
+import FKiller.Main;
 import org.junit.jupiter.api.Test;
 
 public class MainTest {
