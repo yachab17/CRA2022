@@ -59,16 +59,15 @@ public class EmployeeManager {
     private void updateColumnValue(Employee employee, Command command) throws Exception {
         String targetColumn = command.getTargetColumn();
         String targetValue = command.getTargetValue();
-        if (targetColumn == EmployeeParser.CARRIER_LEVEL.toString()) {
+        if (targetColumn.equals(EmployeeParser.CARRIER_LEVEL.toString())) {
             employee.setCareerLevel(targetValue);
-        } else if (targetColumn == EmployeeParser.TELEPHONE_NUMBER.toString()) {
+        } else if (targetColumn.equals(EmployeeParser.TELEPHONE_NUMBER.toString())) {
             employee.setTelephoneNumber(targetValue);
-        } else if (targetColumn == EmployeeParser.BIRTH_DAY.toString()) {
+        } else if (targetColumn.equals(EmployeeParser.BIRTH_DAY.toString())) {
             employee.setBirthDay(targetValue);
-        } else if (targetColumn == EmployeeParser.CERTI_LEVEL.toString()) {
+        } else if (targetColumn.equals(EmployeeParser.CERTI_LEVEL.toString())) {
             employee.setCertiLevel(targetValue);
-        }
-        else if (targetColumn == EmployeeParser.NAME.toString()) {
+        } else if (targetColumn.equals(EmployeeParser.NAME.toString())) {
             employee.setName(targetValue);
         }
         else {
@@ -113,22 +112,22 @@ public class EmployeeManager {
 
     private ISearch getSearcher(Command command) throws Exception {
         String sourceColumnName = command.getSourceColumn();
-        if (sourceColumnName == EmployeeParser.EMPLOYEE_NUMBER.toString()) {
+        if (sourceColumnName.equals(EmployeeParser.EMPLOYEE_NUMBER.toString())) {
             return new EmployeeNumberSearch();
         }
-        else if (sourceColumnName == EmployeeParser.NAME.name().toString()) {
+        else if (sourceColumnName.equals(EmployeeParser.NAME.toString())) {
             return new NameSearch();
         }
-        else if (sourceColumnName == EmployeeParser.CARRIER_LEVEL.name().toString()) {
+        else if (sourceColumnName.equals(EmployeeParser.CARRIER_LEVEL.toString())) {
             return new CLSearch();
         }
-        else if (sourceColumnName == EmployeeParser.TELEPHONE_NUMBER.name().toString()) {
+        else if (sourceColumnName.equals(EmployeeParser.TELEPHONE_NUMBER.toString())) {
             return new TelephoneNumberSearch();
         }
-        else if (sourceColumnName == EmployeeParser.BIRTH_DAY.name().toString()) {
+        else if (sourceColumnName.equals(EmployeeParser.BIRTH_DAY.toString())) {
             return new BirthDaySearch();
         }
-        else if (sourceColumnName == EmployeeParser.CERTI_LEVEL.name().toString()) {
+        else if (sourceColumnName.equals(EmployeeParser.CERTI_LEVEL.toString())) {
             return new CertiSearch();
         }
 
