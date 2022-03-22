@@ -29,7 +29,7 @@ public class BirthDayOptionSearchTest {
 
     @Test
     void yearTest() {
-        BirthDatOptionSearch birthDayOptionSearch = new BirthDatOptionSearch();
+        BirthDayOptionSearch birthDayOptionSearch = new BirthDayOptionSearch();
 
         Assertions.assertEquals(
                 12345678,
@@ -77,7 +77,7 @@ public class BirthDayOptionSearchTest {
 
     @Test
     void monthTest() {
-        BirthDatOptionSearch birthDayOptionSearch = new BirthDatOptionSearch();
+        BirthDayOptionSearch birthDayOptionSearch = new BirthDayOptionSearch();
 
         Assertions.assertEquals(
                 12345678,
@@ -125,7 +125,7 @@ public class BirthDayOptionSearchTest {
 
     @Test
     void dayTest() {
-        BirthDatOptionSearch birthDayOptionSearch = new BirthDatOptionSearch();
+        BirthDayOptionSearch birthDayOptionSearch = new BirthDayOptionSearch();
 
         Assertions.assertEquals(
                 12345678,

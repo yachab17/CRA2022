@@ -14,8 +14,8 @@ public class BirthDaySearch implements ISearch {
         // Refactoring 필요
         if((command.getOption2() != null) && (!command.getOption2().equals(" "))
                 || (command.getOption3() != null) && (!command.getOption3().equals(" "))){
-           BirthDatOptionSearch birthDatOptionSearch = new BirthDatOptionSearch();
-           return birthDatOptionSearch.search(employeemap, command);
+           BirthDayOptionSearch birthDayOptionSearch = new BirthDayOptionSearch();
+           return birthDayOptionSearch.search(employeemap, command);
         }
         else{
             while (entries.hasNext()) {

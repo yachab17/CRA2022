@@ -7,7 +7,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
-public class BirthDatOptionSearch implements ISearch {
+public class BirthDayOptionSearch implements ISearch {
     private static final String OPTION_YEAR = "-y";
     private static final String OPTION_MONTH = "-m";
     private static final String OPTION_DAY = "-d";
