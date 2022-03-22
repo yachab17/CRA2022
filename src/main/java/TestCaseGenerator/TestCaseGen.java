@@ -2,10 +2,21 @@ package TestCaseGenerator;
 
 import java.lang.reflect.GenericArrayType;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Random;
 
 public class TestCaseGen {
+    public static ArrayList<Integer> getRandomIntegerSequenceShuffle(int seed, int generateSize) {
+        ArrayList<Integer> randNumbers = new ArrayList<>();
+        for (int i = 1; i <= generateSize; i++) {
+            randNumbers.add(i);
+        }
+        Collections.shuffle(randNumbers, new Random(seed));
+
+        return randNumbers;
+    }
+
     public static ArrayList<Integer> getRandomIntegerWithoutDuplication(int seed, int numberOfDigit, int generateSize, int maxVal, int minVal) {
         Random rnd = new Random(seed);
         ArrayList<Integer> randNumbers = new ArrayList<>();

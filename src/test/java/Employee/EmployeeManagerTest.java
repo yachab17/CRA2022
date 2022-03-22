@@ -216,5 +216,61 @@ public class EmployeeManagerTest {
         List<Integer> result = search.search(employeeManager.getEmployees(), command);
         Assertions.assertEquals(14028902, result.get(0));
     }
+
+    @Test
+    void searchEngineMassTest() {
+        // 싱글톤으로 인해 다른 테스트에서 생성된 Employee 리스트가 들어감
+        // 이에 spy 객체를 생성하여, 다른 테스트과 별개로 객체 동작하게 변경함
+        EmployeeManager employeeManager = spy(EmployeeManager.GetInstance());
+        System.out.println("Gen Rand Start");
+        int genSize = 60000;
+        ArrayList<Integer> employeesNumbers = TestCaseGen.getRandomIntegerSequenceShuffle(10, genSize);
+        ArrayList<String> names = TestCaseGen.getRandomString(10, 6, genSize);
+        ArrayList<Integer> carrerLevels = TestCaseGen.getRandomInteger(11, 1, genSize, 4, 1);
+        ArrayList<Integer> telephoneNumbersMid = TestCaseGen.getRandomIntegerSequenceShuffle(10, genSize);
+        ArrayList<Integer> telephoneNumbersEnd = TestCaseGen.getRandomIntegerSequenceShuffle(10, genSize);
+        ArrayList<Integer> birthDays = TestCaseGen.getRandomIntegerSequenceShuffle(10, genSize);
+        ArrayList<Integer> certiLevels = TestCaseGen.getRandomInteger(15, 1, genSize, 3, 0);
+        String certiLevelStr[] = new String[4];
+        certiLevelStr[0] = "Intermediate";
+        certiLevelStr[1] = "Advanced";
+        certiLevelStr[2] = "Professional";
+        certiLevelStr[3] = "Expert";
+        System.out.println("Gen Rand Complete");
+
+        System.out.println("Add Command Start");
+        ArrayList<Employee> genEmployees = new ArrayList<Employee>();
+        Employee testEmployees = null;
+        for (int i = 0; i < genSize; i++) {
+            Employee employee = new Employee(employeesNumbers.get(i), names.get(i), String.format("CL%d", carrerLevels.get(i)),
+                    String.format("010-%04d-%04d", telephoneNumbersMid.get(i), telephoneNumbersEnd.get(i)), String.format("%08d", birthDays.get(i)),
+                    certiLevelStr[certiLevels.get(i)]);
+            genEmployees.add(employee);
+
+            if (i == genSize / 2)
+                testEmployees = employee;
+        }
+        System.out.println("Add Command Complete");
+
+        try {
+            for (int i = 0; i < genEmployees.size(); i++) {
+                employeeManager.addCommand(genEmployees.get(i));
+            }
+        }
+        catch (Exception err) {
+            System.out.println(err.getMessage());
+        }
+
+        Assertions.assertEquals(genSize, employeeManager.getTotalEmployees());
+        Command command = mock(Command.class);
+        when(command.getSourceValue()).thenReturn(testEmployees.getBirthDay());
+        ISearch search = new BirthDaySearch();
+        long beforeTime = System.currentTimeMillis(); //코드 실행 전에 시간 받아오기
+        List<Integer> result = search.search(employeeManager.getEmployees(), command);
+        long afterTime = System.currentTimeMillis(); // 코드 실행 후에 시간 받아오기
+        long secDiffTime = (afterTime - beforeTime); //두 시간에 차 계산
+        System.out.println("function run time (ms) : "+secDiffTime);
+        Assertions.assertEquals(testEmployees.getEmployeeNumber(), result.get(0));
+    }
 }
 
