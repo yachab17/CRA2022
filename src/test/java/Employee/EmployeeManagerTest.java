@@ -14,10 +14,10 @@ public class EmployeeManagerTest {
 
     @BeforeEach
     void setup() {
-//        employees = new ArrayList<Employee>();
-//        employees.add(new Employee(12345678, "네이버", "CL3", "010-7342-4440", "20020304", "Expert"));
-//        employees.add(new Employee(22012934, "김삼성", "CL2", "010-1234-5822", "19890601", "Professional"));
-//        employees.add(new Employee(14028902, "카카오", "CL2", "010-8512-3120", "19911018", "Advanced"));
+        employees = new ArrayList<Employee>();
+        employees.add(new Employee(12345678, "네이버", "CL3", "010-7342-4440", "20020304", "Expert"));
+        employees.add(new Employee(22012934, "김삼성", "CL2", "010-1234-5822", "19890601", "Professional"));
+        employees.add(new Employee(14028902, "카카오", "CL2", "010-8512-3120", "19911018", "Advanced"));
     }
 
     @Test
@@ -89,9 +89,9 @@ public class EmployeeManagerTest {
         Command command = mock(Command.class);
         ISearch searcher = mock(ISearch.class);
         when(searcher.search(employeeManager.getEmployees(), command)).thenReturn(Arrays.asList(22012934, 14028902));
-        when(command.getSourceValue()).thenReturn("careerLevel");
+        when(command.getSourceValue()).thenReturn(EmployeeParser.CARRIER_LEVEL.toString());
         when(command.getSourceColumn()).thenReturn("CL2");
-        when(command.getTargetColumn()).thenReturn("careerLevel");
+        when(command.getTargetColumn()).thenReturn(EmployeeParser.CARRIER_LEVEL.toString());
         when(command.getTargetValue()).thenReturn("CL4");
 
         try {
@@ -103,7 +103,6 @@ public class EmployeeManagerTest {
             System.out.println(err.getMessage());
         }
 
-        // 컬럼값 변경되기 전 Record 반환
         List<Employee> updatedEmployees = null;
         try {
             updatedEmployees = employeeManager.updateCommand(command, searcher);
@@ -115,6 +114,30 @@ public class EmployeeManagerTest {
         Assertions.assertEquals(2, updatedEmployees.size());
         Assertions.assertEquals("CL4", employeeMap.get(updatedEmployees.get(0).getEmployeeNumber()).getCareerLevel());
         Assertions.assertEquals("CL4", employeeMap.get(updatedEmployees.get(1).getEmployeeNumber()).getCareerLevel());
+    }
+
+    @Test
+    void updateInvalidColumnException() {
+        EmployeeManager employeeManager = EmployeeManager.GetInstance();
+        Command command = mock(Command.class);
+        ISearch searcher = mock(ISearch.class);
+        when(searcher.search(employeeManager.getEmployees(), command)).thenReturn(Arrays.asList(22012934, 14028902));
+        when(command.getSourceValue()).thenReturn(EmployeeParser.EMPLOYEE_NUMBER.toString());
+        when(command.getSourceColumn()).thenReturn("12345678");
+        when(command.getTargetColumn()).thenReturn(EmployeeParser.EMPLOYEE_NUMBER.toString());
+        when(command.getTargetValue()).thenReturn("123");
+
+        try {
+            for (int i = 0; i < employees.size(); i++) {
+                employeeManager.addCommand(employees.get(i));
+            }
+        }
+        catch (Exception err) {
+            System.out.println(err.getMessage());
+        }
+
+        Exception exception = Assertions.assertThrows(Exception.class, () -> employeeManager.updateCommand(command, searcher));
+        Assertions.assertEquals("Invalid Column Name", exception.getMessage());
     }
 
     @Test
