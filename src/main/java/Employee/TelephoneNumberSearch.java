@@ -15,8 +15,10 @@ public class TelephoneNumberSearch implements ISearch {
 
         Iterator<Map.Entry<Integer, Employee>> entries = employeemap.entrySet().iterator();
 
+        // Refactoring 필요
         if((command.getOption2() != null) || (command.getOption3() !=null)){
-            // optional search
+            TelephoneNumberOptionSearch telephoneNumberOptionSearch = new TelephoneNumberOptionSearch();
+            return telephoneNumberOptionSearch.search(employeemap, command);
         }
         else{
             while(entries.hasNext()){

@@ -11,10 +11,17 @@ public class BirthDaySearch implements ISearch {
 
         Iterator<Map.Entry<Integer, Employee>> entries = employeemap.entrySet().iterator();
 
-        while (entries.hasNext()) {
-            Map.Entry<Integer, Employee> entry = entries.next();
-            if (entry.getValue().getBirthDay().equals(command.getSourceValue())) {
-                resultList.add(entry.getKey());
+        // Refactoring 필요
+        if((command.getOption2() != null) || (command.getOption3() !=null)){
+           BirthDatOptionSearch birthDatOptionSearch = new BirthDatOptionSearch();
+           return birthDatOptionSearch.search(employeemap, command);
+        }
+        else{
+            while (entries.hasNext()) {
+                Map.Entry<Integer, Employee> entry = entries.next();
+                if (entry.getValue().getBirthDay().equals(command.getSourceValue())) {
+                    resultList.add(entry.getKey());
+                }
             }
         }
 
