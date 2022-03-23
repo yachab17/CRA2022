@@ -1,6 +1,8 @@
-package FKiller.Employee;
+package FKiller.Search;
 
 import FKiller.Command.Command;
+import FKiller.Employee.Employee;
+import FKiller.Employee.EmployeeManager;
 import FKiller.Search.BirthDayOptionSearch;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeAll;

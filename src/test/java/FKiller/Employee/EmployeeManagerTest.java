@@ -1,6 +1,5 @@
 package FKiller.Employee;
 
-import Command.*;
 import FKiller.Command.Command;
 import FKiller.Command.CommandType;
 import FKiller.Command.EmployeeParser;

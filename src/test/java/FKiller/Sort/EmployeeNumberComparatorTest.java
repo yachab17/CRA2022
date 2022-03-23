@@ -2,7 +2,6 @@ package FKiller.Sort;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-import Employee.*;
 import FKiller.Employee.Employee;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;

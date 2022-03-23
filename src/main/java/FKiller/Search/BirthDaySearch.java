@@ -4,29 +4,32 @@ import FKiller.Command.Command;
 import FKiller.Employee.Employee;
 
 import java.util.*;
+import java.util.stream.Collectors;
 
 public class BirthDaySearch implements ISearch {
     @Override
     public List<Integer> search(Map<Integer, Employee> employeemap, Command command) {
-        List<Integer> resultList = new ArrayList<>();
+        List<Integer> result = new ArrayList<>();
+        List<Map.Entry<Integer, Employee>> filterList;
 
-        Iterator<Map.Entry<Integer, Employee>> entries = employeemap.entrySet().iterator();
-
-        // Refactoring 필요
         if((command.getOption2() != null) && (!command.getOption2().equals(" "))
                 || (command.getOption3() != null) && (!command.getOption3().equals(" "))){
            BirthDayOptionSearch birthDayOptionSearch = new BirthDayOptionSearch();
            return birthDayOptionSearch.search(employeemap, command);
         }
         else{
-            while (entries.hasNext()) {
-                Map.Entry<Integer, Employee> entry = entries.next();
-                if (entry.getValue().getBirthDay().equals(command.getSourceValue())) {
-                    resultList.add(entry.getKey());
-                }
-            }
-        }
+            filterList = employeemap.entrySet().stream()
+                    .filter(employee -> equals(employee.getValue().getBirthDay(), command.getSourceValue()))
+                    .collect(Collectors.toList());
 
-        return resultList;
+            for(Map.Entry<Integer, Employee> employeeEntry : filterList) {
+                result.add(employeeEntry.getKey());
+            }
+            return result;
+        }
+    }
+
+    private boolean equals(String birthDay, String sourceValue) {
+        return birthDay.compareTo(sourceValue) == 0;
     }
 }

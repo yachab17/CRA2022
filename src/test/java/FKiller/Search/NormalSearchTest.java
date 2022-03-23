@@ -1,6 +1,7 @@
-package FKiller.Employee;
+package FKiller.Search;
 
 import FKiller.Command.Command;
+import FKiller.Employee.Employee;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
