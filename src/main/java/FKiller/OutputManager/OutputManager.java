@@ -1,6 +1,7 @@
 package FKiller.OutputManager;
 
 import FKiller.Command.Command;
+import FKiller.Command.CommandType;
 import FKiller.Employee.Employee;
 import FKiller.Sort.EmployeeNumberComparator;
 
@@ -10,18 +11,19 @@ public class OutputManager {
     public String NONE_OUTPUT_STRING = "NONE";
     public String LINE_BREAK = "\n";
     public String DELIMITER = ",";
+    public String PRINT_OPTION = "-p";
     public int MAX_PRINT_COUNT = 5;
 
 
     public String getOutputString(Command command, List<Employee> employeeList) {
 
-        if(!command.isNeedOutputString()) return "";
+        if(!isNeedOutputString(command)) return "";
         String commandType = command.getType().name();
 
         if(employeeList == null || employeeList.size() == 0) {
             return getOutputStringNoOption(commandType, NONE_OUTPUT_STRING);
         }
-        if(!command.isOptionPrint()) {
+        if(!isOptionPrint(command)) {
             return getOutputStringNoOption(commandType, Integer.toString(employeeList.size()));
         }
 
@@ -53,4 +55,13 @@ public class OutputManager {
                 .append(employee.getCertiLevel())
                 .append(LINE_BREAK).toString();
     }
+
+    public boolean isNeedOutputString(Command command) {
+        return !command.getType().equals(CommandType.ADD);
+    }
+
+    public boolean isOptionPrint(Command command) {
+        return (command.getOption1().equals(PRINT_OPTION));
+    }
+
 }

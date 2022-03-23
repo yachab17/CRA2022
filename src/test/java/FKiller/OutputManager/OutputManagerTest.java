@@ -42,10 +42,9 @@ public class OutputManagerTest {
         Command command = mock(Command.class);
         System.out.println("TEST1 : ADD");
         when(command.getType()).thenReturn(CommandType.ADD);
-        when(command.isNeedOutputString()).thenReturn(false);
         when(command.getOption1()).thenReturn("-p");
         String result = outputManager.getOutputString(command, employees);
-        assertEquals(false, command.isNeedOutputString());
+        assertEquals(false, outputManager.isNeedOutputString(command));
         assertEquals("-p", command.getOption1());
         assertEquals("", result);
         System.out.println(result);
@@ -53,26 +52,26 @@ public class OutputManagerTest {
 
         System.out.println("TEST2 : ADD");
         when(command.getType()).thenReturn(CommandType.ADD);
-        when(command.isNeedOutputString()).thenReturn(false);
         when(command.getOption1()).thenReturn(" ");
+        assertEquals(false, outputManager.isNeedOutputString(command));
         result = outputManager.getOutputString(command, employees);
         assertEquals("", result);
         System.out.println(result);
 
         System.out.println("TEST3 : DEL without -p");
         when(command.getType()).thenReturn(CommandType.DEL);
-        when(command.isNeedOutputString()).thenReturn(true);
-        when(command.isOptionPrint()).thenReturn(false);
         when(command.getOption1()).thenReturn(" ");
+        assertEquals(true, outputManager.isNeedOutputString(command));
+        assertEquals(false, outputManager.isOptionPrint(command));
         result = outputManager.getOutputString(command, employees);
         assertEquals("DEL,8\n", result);
         System.out.println(result);
 
         System.out.println("TEST4 : DEL with p");
         when(command.getType()).thenReturn(CommandType.DEL);
-        when(command.isNeedOutputString()).thenReturn(true);
-        when(command.isOptionPrint()).thenReturn(true);
         when(command.getOption1()).thenReturn("-p");
+        assertEquals(true, outputManager.isNeedOutputString(command));
+        assertEquals(true, outputManager.isOptionPrint(command));
         assertAll(
                 () -> System.out.println(outputManager.getOutputString(command, employees))
         );
