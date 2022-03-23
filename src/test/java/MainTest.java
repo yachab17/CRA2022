@@ -1,6 +1,7 @@
 import static org.junit.jupiter.api.Assertions.*;
 
-import File.FileManager;
+import FKiller.Main;
+import FKiller.File.FileManager;
 import org.junit.jupiter.api.Test;
 
 import java.util.List;
