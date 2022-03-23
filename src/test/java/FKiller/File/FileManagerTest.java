@@ -89,5 +89,13 @@ public class FileManagerTest {
 
     }
 
+    @Test
+    void isExistResultListTest() {
+        FileManager fileManager = new FileManager();
+        List<String> output = new ArrayList<>();
+        assertEquals(false, fileManager.isExistResultList(output));
+        output.add("TEST");
+        assertEquals(true, fileManager.isExistResultList(output));
+    }
 
 }

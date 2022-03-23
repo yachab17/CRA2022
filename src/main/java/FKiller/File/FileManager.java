@@ -9,9 +9,7 @@ public class FileManager {
     public List<String> loadFileToStringList(String inputFile) {
         List<String> result = new ArrayList<>();
         if(!isValidFileName(inputFile)) return result;
-
         if(!isFileExist(inputFile)) return result;
-
         try {
             result = loadInput(inputFile);
         } catch (Exception e) {
@@ -32,7 +30,7 @@ public class FileManager {
     }
 
     public void saveStringListToFile(List<String> resultList, String outputFile) {
-        if(resultList == null) return;
+        if(!isExistResultList(resultList)) return;
         if(!isValidFileName(outputFile)) return;
         try {
             saveOutput(resultList, outputFile);
@@ -51,9 +49,12 @@ public class FileManager {
         printWriter.close();
     }
 
+    public boolean isExistResultList(List<String> resultList) {
+        return (resultList != null && resultList.size() > 0);
+    }
 
     public boolean isValidFileName(String name) {
-        return (name != null && name.length() <= 30 && name.length() > 0 );
+        return (name != null && name.length() <= 30 && name.length() > 0);
     }
 
     public boolean isFileExist(String inputFile) {
